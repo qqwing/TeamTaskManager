@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using TeamWork.Models;  //пространство имен для модели и контекста
+
 namespace TeamWork
 {
     public class Program
@@ -6,26 +9,30 @@ namespace TeamWork
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            //служба для работы с базой данных PostgreSQL
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))); //настройка контекста с строкой подключения
+
+            //службы MVC, контроллеры и представления для обработки HTTP запросов и возвращение ответов в виде HTML
             builder.Services.AddControllersWithViews();
 
-            var app = builder.Build();
+            var app = builder.Build(); //строит приложение после того, как все службы были добавлены
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                app.UseExceptionHandler("/Home/Error"); //обработка ошибок в продакшн-режиме
+                app.UseHsts(); //активация HSTS для повышения безопасности
             }
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            app.UseHttpsRedirection(); //перенаправление на https
+            app.UseStaticFiles(); //разрешение серверу обслуживать статик.файлы (изображения,css,js)
 
-            app.UseRouting();
+            app.UseRouting(); //настройка маршрутизации для обработки запросов (например, к контроллерам и действиям)
 
-            app.UseAuthorization();
+            app.UseAuthorization(); //настройка авторизации
 
+            //настройка маршрутов для MVC, определение базового маршрута для контроллеров
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
