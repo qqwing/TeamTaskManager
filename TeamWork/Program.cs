@@ -35,7 +35,7 @@ namespace TeamWork
             //настройка маршрутов для MVC, определение базового маршрута для контроллеров
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Tasks}/{action=Index}/{id?}");
 
             app.Run();
         }

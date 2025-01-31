@@ -9,9 +9,9 @@
     }
     public enum TaskStatus
     {
-        New,
-        InProgress,
-        Done
+        New = 1,
+        InProgress = 2,
+        Done = 3
     }
 
     //шаблон объекта Задача
@@ -24,14 +24,15 @@
         public string Author { get; set; }
         public string Executor { get; set; }
         public TaskPriority Priority { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime Deadline { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset Deadline { get; set; }
+
         public TaskStatus Status { get; set; }
 
         //конструктор для начальных значений, если они не были определены кем-то
         public Task()
         {
-            CreatedAt = DateTime.Now;
+            CreatedAt = DateTimeOffset.UtcNow;
             Status = TaskStatus.New;
             Priority = TaskPriority.Low;
         }
