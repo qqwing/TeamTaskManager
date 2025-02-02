@@ -75,6 +75,10 @@ namespace TeamWork.Controllers
         // GET: Tasks/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            // Списки для enum
+            ViewBag.PriorityList = new SelectList(Enum.GetValues(typeof(TaskPriority)).Cast<TaskPriority>());
+            ViewBag.StatusList = new SelectList(Enum.GetValues(typeof(Models.TaskStatus)).Cast<Models.TaskStatus>());
+
             if (id == null)
             {
                 return NotFound();

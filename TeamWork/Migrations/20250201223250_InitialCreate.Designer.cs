@@ -12,8 +12,8 @@ using TeamWork.Models;
 namespace TeamWork.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250131172807_UpdateTaskDatesToDateTimeOffset")]
-    partial class UpdateTaskDatesToDateTimeOffset
+    [Migration("20250201223250_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
