@@ -58,12 +58,12 @@ namespace TeamWork.Controllers
         // POST: Tasks/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,Author,Executor,Priority,CreatedAt,Deadline,Status")] TeamWork.Models.Task task) // Используем полное имя
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,Author,Executor,Priority,CreatedAt,Deadline,Status")] TeamWork.Models.Task task)
         {
             if (ModelState.IsValid)
             {
-                task.CreatedAt = DateTimeOffset.UtcNow;
-                task.Deadline = DateTimeOffset.UtcNow.AddDays(1); // Пример для дедлайна
+                task.CreatedAt = task.CreatedAt.ToUniversalTime();
+                task.Deadline = task.Deadline.ToUniversalTime();
 
                 _context.Add(task);
                 await _context.SaveChangesAsync();
@@ -106,6 +106,10 @@ namespace TeamWork.Controllers
             {
                 try
                 {
+                    // Преобразуем время в UTC перед сохранением
+                    task.CreatedAt = task.CreatedAt.ToUniversalTime();
+                    task.Deadline = task.Deadline.ToUniversalTime();
+
                     _context.Update(task);
                     await _context.SaveChangesAsync();
                 }
